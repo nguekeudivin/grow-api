@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectStep extends Model
+class ContributionSeeder extends Model
 {
     //
 }

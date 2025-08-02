@@ -10,13 +10,15 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('villages', function (Blueprint $table) {
+        Schema::create('association_users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('region_id')
-                  ->constrained('regions')
-                  ->onDelete('cascade'); // Or set null if desired
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('association_id')->constrained()->onDelete('cascade');
+
             $table->timestamps();
+
+            $table->unique(['user_id', 'association_id']);
         });
     }
 
@@ -25,6 +27,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('villages');
+        Schema::dropIfExists('association_users');
     }
 };

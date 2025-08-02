@@ -19,12 +19,12 @@ class Payment extends Model
         'status',
     ];
 
-    public const METHOD_ORANGE_MONEY = 'ORANGE_MONEY';
-    public const METHOD_MTN_MOMO = 'MTN_MOMO';
+    public const METHOD_ORANGE_MONEY = 1;
+    public const METHOD_MTN_MOMO = 2;
 
-    public const STATUS_PENDING = 'PENDING';
-    public const STATUS_FAILED = 'FAILED';
-    public const STATUS_SUCCEED = 'SUCCEED';
+    public const STATUS_PENDING = 0;
+    public const STATUS_FAILED = 1;
+    public const STATUS_SUCCEED = 2;
 
     protected $casts = [
         'amount' => 'decimal:2',

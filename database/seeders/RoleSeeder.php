@@ -11,8 +11,9 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            'member' => [
+            'association_member' => [
                 'description' => 'A general user who can view and contribute to projects, and join associations',
+                'name' => 'Member',
                 'permissions' => [
                     'project.view',
                     'project.contribute',
@@ -23,6 +24,7 @@ class RoleSeeder extends Seeder
             ],
             'association_admin' => [
                 'description' => 'A leader of a registered association, able to manage members and related projects',
+                 'name' => 'Association admin',
                 'permissions' => [
                     'association.create',
                     'association.update',
@@ -32,9 +34,16 @@ class RoleSeeder extends Seeder
                     'project.update',
                     'contribution.view',
                     'member.invite',
+                    'project.create',
+                    'project.update',
+                    'project.manage_status',
+                    'project.manage_funding',
+                    'contribution.view',
+                    'fundraising.manage_campaign',
                 ],
             ],
             'project_owner' => [
+                'name' => 'Project Owner',
                 'description' => 'A person responsible for initiating and managing one or more community projects',
                 'permissions' => [
                     'project.create',
@@ -46,6 +55,7 @@ class RoleSeeder extends Seeder
                 ],
             ],
             'moderator' => [
+                'name' => 'Moderator',
                 'description' => 'A user who can help oversee and moderate content and activity within the platform',
                 'permissions' => [
                     'project.view',
@@ -55,15 +65,16 @@ class RoleSeeder extends Seeder
                 ],
             ],
             'admin' => [
+                'name' => 'Administrator',
                 'description' => 'Full system access; manages users, roles, permissions, and platform configurations',
                 'permissions' => Permission::pluck('name')->toArray(), // All permissions
             ],
         ];
 
-        foreach ($roles as $name => $roleData) {
+        foreach ($roles as $code => $roleData) {
             $role = Role::firstOrCreate(
-                ['name' => $name],
-                ['description' => $roleData['description']]
+                ['code' => $code],
+                ['description' => $roleData['description'], 'name' => $roleData['name']]
             );
 
             $permissions = Permission::whereIn('name', $roleData['permissions'])->get();

@@ -2,27 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection;
-use Carbon\Carbon;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
     use HasFactory;
     use Notifiable;
 
     protected $fillable = [
-        'email', 'password', 'firstname', 'lastname', 'birth_date', 'gender',
-        'phone_number', 'city_id',  'area', 'status', 'last_online', 'is_online',
-        'lang', 'image', 'about', 'looking', 'verified_at', 'occupation'
+        'firstname',
+        'lastname',
+        'email',
+        'phone_number',
+        'gender',
+        'birth_date',
+        'password',
+        'location_id',
+        'origin_location_id',
+        'photo',
+        'about',
+        'language_id',
+        'email_verified_at',
+        'verified_at',
     ];
 
     protected $hidden = [
@@ -32,47 +35,47 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
         'verified_at' => 'datetime',
-        'last_online' => 'datetime',
-        'birth_date' => 'date',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
     ];
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
 
+    public function originLocation()
+    {
+        return $this->belongsTo(Location::class, 'origin_location_id');
+    }
 
-    protected $appends = ['name','plan','type'];
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_role')->withTimestamps();
+    }
+
+    public function contributions()
+    {
+        return $this->hasMany(Contribution::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 
     public function languages()
     {
-        return $this->belongsToMany(Language::class, 'user_language', 'user_id', 'language_id');
+        return $this->belongsToMany(Language::class, 'user_languages')->withTimestamps();
     }
 
-
-
-    public function roles(): BelongsToMany
+    public function associations()
     {
-        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id')
-            ->using(UserRole::class)
-            ->withTimestamps();
-    }
-
-    public function image()
-    {
-        return $this->morphOne(Image::class, 'imageable');
-    }
-
-    // Accessor: Get all unique permissions for the user
-    public function getPermissionsAttribute()
-    {
-        return $this->roles
-            ->flatMap(function ($role) {
-                return $role->permissions;
-            })
-            ->unique('id')
-            ->values();
+        return $this->belongsToMany(Association::class, 'association_users');
     }
 
 

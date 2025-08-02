@@ -10,11 +10,6 @@ return new class () extends Migration {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('contribution_id')
-                ->nullable()
-                ->constrained()
-                ->onDelete('set null');
-
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained()

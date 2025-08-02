@@ -10,10 +10,10 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('user_language', function (Blueprint $table) {
+        Schema::create('user_languages', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('language_id')->references('id')->on('languages')->cascadeOnDelete();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->timestamps();
 
             $table->unique(['user_id', 'language_id']);
@@ -25,6 +25,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_language');
+        Schema::dropIfExists('user_languages');
     }
 };

@@ -14,18 +14,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             LanguageSeeder::class,
-            LocationSeeder::class,
-            InterestSeeder::class,
-            PlanSeeder::class,
+            CountrySeeder::class,
+            CameroonDivisionSeeder::class,
+            PermissionSeeder::class,
+            RoleSeeder::class,
             UserSeeder::class,
-            AdminSeeder::class,
-            ServiceSeeder::class,
-            PostSeeder::class,
-            TicketCategorySeeder::class,
-            TicketSeeder::class,
-            ReportSeeder::class,
-            PaymentSeeder::class,
-            SettingSeeder::class
+            AssociationSeeder::class,
+            ProjectSeeder::class,
+            ContributionSeeder::class
         ]);
     }
 }

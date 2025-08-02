@@ -15,21 +15,19 @@ return new class () extends Migration {
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
-            $table->enum('gender', ['MALE', 'FEMALE'])->nullable();
+            $table->enum('gender', ['MALE', 'FEMALE']);
             $table->date('birth_date')->nullable();
             $table->string('password');
+
+            $table->unsignedBigInteger('location_id')->nullable();
+            $table->unsignedBigInteger('origin_location_id')->nullable();
 
             // Current Residence (foreign keys)
             $table->foreign('location_id')->references('id')->on('locations')->nullOnDelete();
             $table->foreign('origin_location_id')->references('id')->on('locations')->nullOnDelete();
 
-
             // Profile
-            $table->string('photo')->nullable(); // profile picture path or URL
             $table->text('about')->nullable();
-
-            // Language Preference (FK)
-            $table->unsignedBigInteger('language_id')->nullable();
 
             // Verification
             $table->timestamp('email_verified_at')->nullable();
@@ -38,7 +36,6 @@ return new class () extends Migration {
             $table->timestamps();
 
             // Foreign Key Constraints
-            $table->foreign('language_id')->references('id')->on('languages')->nullOnDelete();
         });
     }
 
