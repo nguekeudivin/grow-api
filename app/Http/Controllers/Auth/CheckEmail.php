@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class CheckEmail extends Controller
 {
@@ -24,18 +27,9 @@ class CheckEmail extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid email address'
-            ]);
+            ], 422);
         }
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $user->load('admin');
-
-        $user->token = $user->createToken('api-token')->plainTextToken;
-
-        // $user->permissions = $user->getPermissions();
         return response()->json($user, 200);
     }
 }

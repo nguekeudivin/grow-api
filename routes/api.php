@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', \App\Http\Controllers\Auth\Login::class);
+Route::post('/auth/check-email', \App\Http\Controllers\Auth\CheckEmail::class);
 
 Route::get('/associations', \App\Http\Controllers\Association\GetAssociations::class);
 
