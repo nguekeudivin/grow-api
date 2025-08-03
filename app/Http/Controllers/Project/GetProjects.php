@@ -11,7 +11,7 @@ class GetProjects extends Controller
 {
     public function __invoke(Request $request)
     {
-        $query = Project::with(['location.division', 'location.country']);
+        $query = Project::with(['location.division', 'location.country', 'contributions','image']);
 
         if ($request->has('user_id')) {
             $user = User::find($request->user_id);

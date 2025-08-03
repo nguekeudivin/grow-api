@@ -36,6 +36,15 @@ class ProjectSeeder extends Seeder
             foreach ($projects as $project) {
                 $phaseCount = rand(2, 5);
 
+                // Add image to the project
+                $imagePath = '/images/project-'. rand(1, 15).'.jpg';
+                $project->image()->create([
+                    'url' => url($imagePath),
+                    'path' => '',
+                    'imageable_type' => Project::class,
+                    'imageable_id' => $project->id
+                ]);
+
                 for ($i = 1; $i <= $phaseCount; $i++) {
                     \App\Models\ProjectPhase::factory()->create([
                         'project_id' => $project->id,

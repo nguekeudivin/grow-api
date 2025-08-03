@@ -42,4 +42,9 @@ class Project extends Model
     {
         return $this->hasMany(ProjectPhase::class);
     }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }
