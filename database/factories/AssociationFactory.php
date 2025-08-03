@@ -34,7 +34,7 @@ class AssociationFactory extends Factory
 
         return [
             'name' => $this->faker->unique()->company . ' Association',
-            'description' => $this->faker->optional()->realTextBetween(80, 180),
+            'description' => $this->faker->realTextBetween(80, 180),
 
             // Assign the newly created location
             'location_id' => $location->id,

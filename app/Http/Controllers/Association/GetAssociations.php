@@ -10,8 +10,11 @@ class GetAssociations extends Controller
 {
     public function __invoke(Request $request)
     {
+
+        $associations = Association::with(['location.division','location.country'])->get();
+
         return response()->json([
-            'associations' => Association::all()
+            'associations' => $associations
         ]);
     }
 }
