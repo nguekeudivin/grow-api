@@ -27,7 +27,7 @@ class Login extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $user->load('admin');
+        // $user->load('admin');
 
         $user->token = $user->createToken('api-token')->plainTextToken;
 
