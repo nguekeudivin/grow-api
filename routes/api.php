@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', \App\Http\Controllers\Auth\Login::class);
+Route::post('/auth/register', \App\Http\Controllers\Auth\Register::class);
+Route::post('/validate/email', \App\Http\Controllers\Validate\ValidateEmail::class);
+
 Route::post('/auth/check-email', \App\Http\Controllers\Auth\CheckEmail::class);
 
 Route::get('/associations', \App\Http\Controllers\Association\GetAssociations::class);
