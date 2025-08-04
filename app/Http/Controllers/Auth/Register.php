@@ -87,11 +87,28 @@ class Register extends Controller
                 'division_id' => $divisionId,
             ]);
             $user->origin_location_id = $originLocation->id;
-
             $user->save();
+
+            // Attach the user to the association
+
+
+            // Assign both admin and member roles to the creator
+            $memberRole = Role::where('code', 'association_member')->firstOrFail();
+            $association = Association::where('id', $request->association_id)->firstOrFail();
+            // Link creator to association
+            $creatorAssociationUser = AssociationUser::create([
+                'user_id' => $user->id,
+                'association_id' => $association->id,
+            ]);
+            AssociationUserRole::create([
+                'association_user_id' => $creatorAssociationUser->id,
+                'role_id' => $memberRole->id,
+            ]);
 
             // Generate token
             $user->token = $user->createToken('api-token')->plainTextToken;
+
+            //
 
             // Optionally send verification email
             /*
