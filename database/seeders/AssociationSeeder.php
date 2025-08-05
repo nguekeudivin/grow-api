@@ -7,11 +7,31 @@ use App\Models\AssociationUser;
 use App\Models\AssociationUserRole;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\Division;
+use App\Models\Location;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class AssociationSeeder extends Seeder
 {
+    public function getWestDivisionLocation()
+    {
+
+        $cameroon = Country::where('code', 'CM')->firstOrFail();
+
+        $division = Division::where('type', 'region')
+           ->where('name', 'West')
+           ->first();
+
+
+        // Create a Location at that village division with Cameroon as country
+        return Location::factory()->create([
+            'country_id' => $cameroon->id,
+            'division_id' => $division,
+        ]);
+    }
+
     public function run(): void
     {
         // Disable FK checks for truncate safety
@@ -25,6 +45,37 @@ class AssociationSeeder extends Seeder
 
         $adminRole = Role::where('code', 'association_admin')->firstOrFail();
         $memberRole = Role::where('code', 'association_member')->firstOrFail();
+
+        $westRegionLocation = $this->getWestDivisionLocation();
+
+        // Create client associations
+        Association::create([
+            'name' => "ADEBAM NZa'a",
+            'description' => "ADEBAM Nza'a",
+            'location_id' => $westRegionLocation->id,
+            'creator_id' => $users[0]->id,
+            'status' => 1
+        ]);
+
+        // Create client associations
+        Association::create([
+            'name' => "CODEM",
+            'description' => "CODEM",
+            'location_id' => $westRegionLocation->id,
+            'creator_id' => $users[0]->id,
+            'status' => 1
+        ]);
+
+
+        // Create client associations
+        Association::create([
+            'name' => "METCHOU Douala Association",
+            'description' => "METCHOU Douala Association",
+            'location_id' => $westRegionLocation->id,
+            'creator_id' => $users[0]->id,
+            'status' => 1
+        ]);
+
 
         foreach ($users as $user) {
             // Create an association for each user
